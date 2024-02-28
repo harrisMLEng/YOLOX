@@ -97,6 +97,13 @@ def make_parser():
         help="Evaluating on test-dev set.",
     )
     parser.add_argument(
+        "-cls",
+        "--classes",
+        default=None, 
+        type=int, 
+        help="training epochs"
+    )
+    parser.add_argument(
         "--speed",
         dest="speed",
         default=False,
@@ -144,6 +151,8 @@ def main(exp, args, num_gpu):
         exp.nmsthre = args.nms
     if args.tsize is not None:
         exp.test_size = (args.tsize, args.tsize)
+    if args.classes is not None:
+        exp.num_classes = args.classes
 
     model = exp.get_model()
     logger.info("Model Summary: {}".format(get_model_info(model, exp.test_size)))

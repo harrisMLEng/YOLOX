@@ -138,7 +138,7 @@ if __name__ == "__main__":
     exp = get_exp(args.exp_file, args.name)
     exp.merge(args.opts)
     exp.max_epoch = args.max_epoch
-    exp.num_classes = args.classes
+    exp.num_classes = args.classes if args.classes is not None else exp.num_classes
     check_exp_value(exp)
 
     if not args.experiment_name:
