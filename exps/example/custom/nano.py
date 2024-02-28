@@ -24,9 +24,9 @@ class Exp(MyExp):
         self.max_epoch = 30
 
         # Define yourself dataset path
-        self.data_dir = "datasets/coco128"
-        self.train_ann = "instances_train2017.json"
-        self.val_ann = "instances_val2017.json"
+        self.data_dir = "datasets/coco"
+        self.train_ann = "train.json"
+        self.val_ann = "val.json"
 
         self.num_classes = 2
 
