@@ -22,13 +22,13 @@ class Exp(MyExp):
         self.enable_mixup = False
 
         self.max_epoch = 30
-        
+
         # Define yourself dataset path
         self.data_dir = "datasets/coco"
         self.train_dir = "train"
         self.val_dir = "val"
         self.train_ann = "train.json"
-        self.val_ann = "val.json"
+        self.val_ann = "valid.json"
 
         self.num_classes = 2
 
