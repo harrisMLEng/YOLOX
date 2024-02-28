@@ -15,6 +15,8 @@ class Exp(MyExp):
 
         # Define yourself dataset path
         self.data_dir = "datasets/coco"
+        self.train_dir = "train"
+        self.val_dir = "val"
         self.train_ann = "train.json"
         self.val_ann = "val.json"
 
