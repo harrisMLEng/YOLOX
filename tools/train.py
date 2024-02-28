@@ -81,6 +81,20 @@ def make_parser():
         help="occupy GPU memory first for training.",
     )
     parser.add_argument(
+        "-ep",
+        "--max-epoch",
+        default=30, 
+        type=int, 
+        help="training epochs"
+    )
+    parser.add_argument(
+        "-cls",
+        "--classes",
+        default=None, 
+        type=int, 
+        help="training epochs"
+    )
+    parser.add_argument(
         "-l",
         "--logger",
         type=str,
@@ -123,6 +137,8 @@ if __name__ == "__main__":
     args = make_parser().parse_args()
     exp = get_exp(args.exp_file, args.name)
     exp.merge(args.opts)
+    exp.max_epoch = args.max_epoch
+    exp.num_classes = args.classes
     check_exp_value(exp)
 
     if not args.experiment_name:
