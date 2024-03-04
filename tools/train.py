@@ -113,6 +113,11 @@ def make_parser():
         type=str,
         help="Path to dataset",
     )
+    parser.add_argument(
+        "--model_dir",
+        type=str,
+        help="Path to dataset",
+    )
     return parser
 
 
@@ -145,6 +150,7 @@ if __name__ == "__main__":
     exp.max_epoch = args.max_epoch
     exp.num_classes = args.classes if args.classes is not None else exp.num_classes
     exp.data_dir = args.data_dir if args.data_dir is not None else exp.data_dir
+    exp.output_dir = args.ckpt if args.ckpt is not None else exp.model_dir
     check_exp_value(exp)
 
     if not args.experiment_name:
