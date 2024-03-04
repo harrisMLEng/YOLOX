@@ -147,10 +147,12 @@ if __name__ == "__main__":
     args = make_parser().parse_args()
     exp = get_exp(args.exp_file, args.name)
     exp.merge(args.opts)
+    
     exp.max_epoch = args.max_epoch
     exp.num_classes = args.classes if args.classes is not None else exp.num_classes
     exp.data_dir = args.data_dir if args.data_dir is not None else exp.data_dir
-    exp.output_dir = args.ckpt if args.ckpt is not None else exp.model_dir
+    exp.output_dir = args.model_dir if args.model_dir is not None else exp.output_dir
+    
     check_exp_value(exp)
 
     if not args.experiment_name:
