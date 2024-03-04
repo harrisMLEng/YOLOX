@@ -130,16 +130,12 @@ class Trainer:
         logger.info("args: {}".format(self.args))
         logger.info("exp value:\n{}".format(self.exp))
 
-        print("args: {}".format(self.args))
-        print("exp value:\n{}".format(self.exp))
-
         # model related init
         torch.cuda.set_device(self.local_rank)
         model = self.exp.get_model()
         logger.info(
             "Model Summary: {}".format(get_model_info(model, self.exp.test_size))
         )
-        print("Model Summary: {}".format(get_model_info(model, self.exp.test_size)))
         model.to(self.device)
 
         # solver related init
@@ -157,7 +153,6 @@ class Trainer:
             cache_img=self.args.cache,
         )
         logger.info("init prefetcher, this might take one minute or less...")
-        print("init prefetcher, this might take one minute or less...")
         self.prefetcher = DataPrefetcher(self.train_loader)
         # max_iter means iters per epoch
         self.max_iter = len(self.train_loader)
