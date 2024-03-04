@@ -108,6 +108,11 @@ def make_parser():
         default=None,
         nargs=argparse.REMAINDER,
     )
+    parser.add_argument(
+        "--data_dir",
+        type=str,
+        help="Path to dataset",
+    )
     return parser
 
 
@@ -139,6 +144,7 @@ if __name__ == "__main__":
     exp.merge(args.opts)
     exp.max_epoch = args.max_epoch
     exp.num_classes = args.classes if args.classes is not None else exp.num_classes
+    exp.data_dir = args.data_dir if args.data_dir is not None else exp.data_dir
     check_exp_value(exp)
 
     if not args.experiment_name:
