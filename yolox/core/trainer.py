@@ -130,12 +130,16 @@ class Trainer:
         logger.info("args: {}".format(self.args))
         logger.info("exp value:\n{}".format(self.exp))
 
+        print("args: {}".format(self.args))
+        print("exp value:\n{}".format(self.exp))
+
         # model related init
         torch.cuda.set_device(self.local_rank)
         model = self.exp.get_model()
         logger.info(
             "Model Summary: {}".format(get_model_info(model, self.exp.test_size))
         )
+        print("Model Summary: {}".format(get_model_info(model, self.exp.test_size)))
         model.to(self.device)
 
         # solver related init
@@ -153,6 +157,7 @@ class Trainer:
             cache_img=self.args.cache,
         )
         logger.info("init prefetcher, this might take one minute or less...")
+        print("init prefetcher, this might take one minute or less...")
         self.prefetcher = DataPrefetcher(self.train_loader)
         # max_iter means iters per epoch
         self.max_iter = len(self.train_loader)
@@ -189,18 +194,22 @@ class Trainer:
                 raise ValueError("logger must be either 'tensorboard' or 'wandb'")
 
         logger.info("Training start...")
+        print("Training start...")
         logger.info("\n{}".format(model))
+        print("\n{}".format(model))
 
     def after_train(self):
         logger.info(
             "Training of experiment is done and the best AP is {:.2f}".format(self.best_ap * 100)
         )
+        print("Training of experiment is done and the best AP is {:.2f}".format(self.best_ap * 100))
         if self.rank == 0:
             if self.args.logger == "wandb":
                 self.wandb_logger.finish()
 
     def before_epoch(self):
         logger.info("---> start train epoch{}".format(self.epoch + 1))
+        print("---> start train epoch{}".format(self.epoch + 1))
 
         if self.epoch + 1 == self.max_epoch - self.exp.no_aug_epochs or self.no_aug:
             logger.info("--->No mosaic aug now!")
@@ -352,6 +361,7 @@ class Trainer:
                 })
                 self.wandb_logger.log_images(predictions)
             logger.info("\n" + summary)
+            print("\n" + summary)
         synchronize()
 
         self.save_ckpt("last_epoch", update_best_ckpt, ap=ap50_95)
@@ -362,6 +372,7 @@ class Trainer:
         if self.rank == 0:
             save_model = self.ema_model.ema if self.use_model_ema else self.model
             logger.info("Save weights to {}".format(self.file_name))
+            print("Save weights to {}".format(self.file_name))
             ckpt_state = {
                 "start_epoch": self.epoch + 1,
                 "model": save_model.state_dict(),

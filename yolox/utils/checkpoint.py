@@ -26,6 +26,11 @@ def load_ckpt(model, ckpt):
                     key_model, v_ckpt.shape, key_model, v.shape
                 )
             )
+            print(
+                "Shape of {} in checkpoint is {}, while shape of {} in model is {}.".format(
+                    key_model, v_ckpt.shape, key_model, v.shape
+                )
+            )
             continue
         load_dict[key_model] = v_ckpt
 
