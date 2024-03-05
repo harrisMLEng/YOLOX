@@ -176,17 +176,17 @@ class Trainer:
             batch_size=self.args.batch_size, is_distributed=self.is_distributed
         )
         # Tensorboard and Wandb loggers
-        if self.rank == 0:
-            if self.args.logger == "tensorboard":
-                self.tblogger = SummaryWriter(os.path.join(self.file_name, "tensorboard"))
-            elif self.args.logger == "wandb":
-                self.wandb_logger = WandbLogger.initialize_wandb_logger(
-                    self.args,
-                    self.exp,
-                    self.evaluator.dataloader.dataset
-                )
-            else:
-                raise ValueError("logger must be either 'tensorboard' or 'wandb'")
+        # if self.rank == 0:
+        #     if self.args.logger == "tensorboard":
+        #         self.tblogger = SummaryWriter(os.path.join(self.file_name, "tensorboard"))
+        #     elif self.args.logger == "wandb":
+        #         self.wandb_logger = WandbLogger.initialize_wandb_logger(
+        #             self.args,
+        #             self.exp,
+        #             self.evaluator.dataloader.dataset
+        #         )
+        #     else:
+        #         raise ValueError("logger must be either 'tensorboard' or 'wandb'")
 
         logger.info("Training start...")
         print("Training start...")
@@ -198,9 +198,9 @@ class Trainer:
             "Training of experiment is done and the best AP is {:.2f}".format(self.best_ap * 100)
         )
         print("Training of experiment is done and the best AP is {:.2f}".format(self.best_ap * 100))
-        if self.rank == 0:
-            if self.args.logger == "wandb":
-                self.wandb_logger.finish()
+        # if self.rank == 0:
+        #     if self.args.logger == "wandb":
+        #         self.wandb_logger.finish()
 
     def before_epoch(self):
         logger.info("---> start train epoch{}".format(self.epoch + 1))
