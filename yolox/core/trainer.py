@@ -78,6 +78,7 @@ class Trainer:
             raise
         finally:
             self.after_train()
+            print("After Train Exitted")
 
     def train_in_epoch(self):
         for self.epoch in range(self.start_epoch, self.max_epoch):
