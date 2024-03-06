@@ -198,9 +198,9 @@ class Trainer:
             "Training of experiment is done and the best AP is {:.2f}".format(self.best_ap * 100)
         )
         print("Training of experiment is done and the best AP is {:.2f}".format(self.best_ap * 100))
-        if self.rank == 0:
-            if self.args.logger == "wandb":
-                self.wandb_logger.finish()
+        # if self.rank == 0:
+        #     if self.args.logger == "wandb":
+        #         self.wandb_logger.finish()
 
     def before_epoch(self):
         logger.info("---> start train epoch{}".format(self.epoch + 1))
