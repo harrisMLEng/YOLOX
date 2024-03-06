@@ -6,6 +6,8 @@ import argparse
 import random
 import warnings
 from loguru import logger
+import signal
+import sys
 
 import torch
 import torch.backends.cudnn as cudnn
@@ -142,8 +144,13 @@ def main(exp: Exp, args):
     trainer.train()
     print("Training Exited")
 
+def sigterm_handler(_signo, _stack_frame):
+    # Your cleanup code here, e.g., saving models, releasing resources, etc.
+    print("SIGTERM received, shutting down gracefully...")
+    sys.exit(0)
 
 if __name__ == "__main__":
+    signal.signal(signal.SIGTERM, sigterm_handler)
     # configure_module()
     args = make_parser().parse_args()
     exp = get_exp(args.exp_file, args.name)
