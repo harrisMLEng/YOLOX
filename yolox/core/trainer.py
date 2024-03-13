@@ -51,6 +51,7 @@ class Trainer:
         self.use_model_ema = exp.ema
         self.save_history_ckpt = exp.save_history_ckpt
 
+
         # data/dataloader related attr
         self.data_type = torch.float16 if args.fp16 else torch.float32
         self.input_size = exp.input_size
@@ -58,7 +59,8 @@ class Trainer:
 
         # metric record
         self.meter = MeterBuffer(window_size=exp.print_interval)
-        self.file_name = os.path.join(exp.output_dir, args.experiment_name)
+        self.file_name = args.log_path
+        # self.file_name = os.path.join(exp.output_dir, args.experiment_name)
 
         if self.rank == 0:
             os.makedirs(self.file_name, exist_ok=True)
