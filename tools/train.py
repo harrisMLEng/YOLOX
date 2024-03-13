@@ -6,8 +6,7 @@ import argparse
 import random
 import warnings
 from loguru import logger
-import signal
-import sys
+
 
 import torch
 import torch.backends.cudnn as cudnn
@@ -125,33 +124,27 @@ def make_parser():
 
 @logger.catch
 def main(exp: Exp, args):
-    # if exp.seed is not None:
-    #     random.seed(exp.seed)
-    #     torch.manual_seed(exp.seed)
-    #     cudnn.deterministic = True
-    #     warnings.warn(
-    #         "You have chosen to seed training. This will turn on the CUDNN deterministic setting, "
-    #         "which can slow down your training considerably! You may see unexpected behavior "
-    #         "when restarting from checkpoints."
-    #     )
+    if exp.seed is not None:
+        random.seed(exp.seed)
+        torch.manual_seed(exp.seed)
+        cudnn.deterministic = True
+        warnings.warn(
+            "You have chosen to seed training. This will turn on the CUDNN deterministic setting, "
+            "which can slow down your training considerably! You may see unexpected behavior "
+            "when restarting from checkpoints."
+        )
 
     # set environment variables for distributed training
-    # configure_nccl()
-    # configure_omp()
+    configure_nccl()
+    configure_omp()
     cudnn.benchmark = True
 
     trainer = exp.get_trainer(args)
     trainer.train()
     print("Training Exited")
 
-def sigterm_handler(_signo, _stack_frame):
-    # Your cleanup code here, e.g., saving models, releasing resources, etc.
-    print("SIGTERM received, shutting down gracefully...")
-    sys.exit(0)
-
 if __name__ == "__main__":
-    signal.signal(signal.SIGTERM, sigterm_handler)
-    # configure_module()
+    configure_module()
     args = make_parser().parse_args()
     exp = get_exp(args.exp_file, args.name)
     exp.merge(args.opts)
@@ -168,17 +161,17 @@ if __name__ == "__main__":
 
     num_gpu = get_num_devices() if args.devices is None else args.devices
     assert num_gpu <= get_num_devices()
-    main(exp, args)
-    # if args.cache is not None:
-    #     exp.dataset = exp.get_dataset(cache=True, cache_type=args.cache)
 
-    # dist_url = "auto" if args.dist_url is None else args.dist_url
-    # launch(
-    #     main,
-    #     num_gpu,
-    #     args.num_machines,
-    #     args.machine_rank,
-    #     backend=args.dist_backend,
-    #     dist_url=dist_url,
-    #     args=(exp, args),
-    # )
+    if args.cache is not None:
+        exp.dataset = exp.get_dataset(cache=True, cache_type=args.cache)
+
+    dist_url = "auto" if args.dist_url is None else args.dist_url
+    launch(
+        main,
+        num_gpu,
+        args.num_machines,
+        args.machine_rank,
+        backend=args.dist_backend,
+        dist_url=dist_url,
+        args=(exp, args),
+    )
