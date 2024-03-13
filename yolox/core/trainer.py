@@ -59,14 +59,15 @@ class Trainer:
 
         # metric record
         self.meter = MeterBuffer(window_size=exp.print_interval)
-        self.file_name = args.log_path
-        # self.file_name = os.path.join(exp.output_dir, args.experiment_name)
+        self.log_path = args.log_path
+        self.file_name = os.path.join(exp.output_dir, args.experiment_name)
 
         if self.rank == 0:
             os.makedirs(self.file_name, exist_ok=True)
+            os.makedirs(self.log_path, exist_ok=True)
 
         setup_logger(
-            self.file_name,
+            self.log_path,
             distributed_rank=self.rank,
             filename="train_log.txt",
             mode="a",
@@ -181,7 +182,7 @@ class Trainer:
         # Tensorboard and Wandb loggers
         if self.rank == 0:
             if self.args.logger == "tensorboard":
-                self.tblogger = SummaryWriter(os.path.join(self.file_name, "tensorboard"))
+                self.tblogger = SummaryWriter(os.path.join(self.log_path, "tensorboard"))
             elif self.args.logger == "wandb":
                 self.wandb_logger = WandbLogger.initialize_wandb_logger(
                     self.args,
