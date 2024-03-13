@@ -104,6 +104,14 @@ def make_parser():
         default="tensorboard"
     )
     parser.add_argument(
+        "-lp",
+        "--log_path",
+        type=str,
+        help="Logger to be used for metrics. \
+        Implemented loggers include `tensorboard` and `wandb`.",
+        default="/opt/ml/output"
+    )
+    parser.add_argument(
         "opts",
         help="Modify config options using the command-line",
         default=None,
