@@ -141,7 +141,6 @@ def main(exp: Exp, args):
 
     trainer = exp.get_trainer(args)
     trainer.train()
-    print("Training Exited")
 
 if __name__ == "__main__":
     configure_module()
