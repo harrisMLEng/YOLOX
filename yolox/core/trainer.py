@@ -78,6 +78,7 @@ class Trainer:
             raise
         finally:
             self.after_train()
+            print("After Train Exitted")
 
     def train_in_epoch(self):
         for self.epoch in range(self.start_epoch, self.max_epoch):
@@ -189,18 +190,22 @@ class Trainer:
                 raise ValueError("logger must be either 'tensorboard' or 'wandb'")
 
         logger.info("Training start...")
+        print("Training start...")
         logger.info("\n{}".format(model))
+        print("\n{}".format(model))
 
     def after_train(self):
         logger.info(
             "Training of experiment is done and the best AP is {:.2f}".format(self.best_ap * 100)
         )
+        print("Training of experiment is done and the best AP is {:.2f}".format(self.best_ap * 100))
         if self.rank == 0:
             if self.args.logger == "wandb":
                 self.wandb_logger.finish()
 
     def before_epoch(self):
         logger.info("---> start train epoch{}".format(self.epoch + 1))
+        print("---> start train epoch{}".format(self.epoch + 1))
 
         if self.epoch + 1 == self.max_epoch - self.exp.no_aug_epochs or self.no_aug:
             logger.info("--->No mosaic aug now!")
@@ -352,6 +357,7 @@ class Trainer:
                 })
                 self.wandb_logger.log_images(predictions)
             logger.info("\n" + summary)
+            print("\n" + summary)
         synchronize()
 
         self.save_ckpt("last_epoch", update_best_ckpt, ap=ap50_95)
@@ -362,6 +368,7 @@ class Trainer:
         if self.rank == 0:
             save_model = self.ema_model.ema if self.use_model_ema else self.model
             logger.info("Save weights to {}".format(self.file_name))
+            print("Save weights to {}".format(self.file_name))
             ckpt_state = {
                 "start_epoch": self.epoch + 1,
                 "model": save_model.state_dict(),
