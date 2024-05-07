@@ -30,6 +30,8 @@ class Exp(MyExp):
         self.train_ann = "train.json"
         self.val_ann = "valid.json"
         self.output_dir = "./YOLOX_outputs"
+        self.save_history_ckpt = False 
+        
 
         self.num_classes = 2
 
