@@ -24,6 +24,6 @@ class Exp(MyExp):
 
         self.max_epoch = 30
         self.data_num_workers = 4
-        self.eval_interval = 10
-        self.save_history_ckpt = False 
+        self.eval_interval = 1
+        # self.save_history_ckpt = False 
 
