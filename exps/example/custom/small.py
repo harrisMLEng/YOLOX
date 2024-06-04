@@ -19,6 +19,8 @@ class Exp(MyExp):
         self.val_dir = "val"
         self.train_ann = "train.json"
         self.val_ann = "valid.json"
+        self.test_dir = "test"
+        self.test_ann = "test.json"
 
         self.num_classes = 2
 

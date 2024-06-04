@@ -27,8 +27,10 @@ class Exp(MyExp):
         self.data_dir = "datasets/coco"
         self.train_dir = "train"
         self.val_dir = "val"
+        self.test_dir = "test"
         self.train_ann = "train.json"
         self.val_ann = "valid.json"
+        self.test_ann = "test.json"
         self.output_dir = "./YOLOX_outputs"
         self.save_history_ckpt = False 
         
